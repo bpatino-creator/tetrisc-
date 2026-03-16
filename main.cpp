@@ -1,5 +1,6 @@
 #include <iostream>
 #include "tablero.h"
+#include "piezas.h"
 
 using namespace std;
 
@@ -22,10 +23,24 @@ int main()
 
     char** tablero;
 
+    // Crear tablero
     crearTablero(tablero, alto, ancho);
 
-    cout << endl << "TABLERO: " << endl;
+    // Crear pieza
+    unsigned char pieza[4];
+    int altoPieza;
 
+    generarPieza(pieza, altoPieza);
+
+    // Centrar pieza
+    centrarPieza(pieza, altoPieza, ancho);
+
+    // Colocar pieza en la parte superior del tablero
+    colocarPieza(tablero, pieza, altoPieza);
+
+    cout << endl << "TABLERO:" << endl;
+
+    // Mostrar tablero
     imprimirTablero(tablero, alto, ancho);
 
     return 0;
