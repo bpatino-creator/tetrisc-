@@ -3,7 +3,7 @@
 
 // Genera una pieza aleatoria
 void generarPieza(unsigned char pieza[], int &altoPieza, int &tipo);
-//void generarPieza(unsigned char pieza[], int &altoPieza);
+
 
 // Dibuja la pieza sobre el tablero (temporal o definitiva)
 void dibujarPieza(char** tablero, unsigned char pieza[], int altoPieza, int x, int y, int ancho);
@@ -16,7 +16,7 @@ void fijarPieza(char** tablero, unsigned char pieza[], int altoPieza, int x, int
 
 int anchoPieza(unsigned char pieza[], int altoPieza);
 
-bool puedeMover(char** tablero, unsigned char pieza[], int altoPieza, int x, int y, int dx, int ancho, int alto);
+
 
 #endif
 

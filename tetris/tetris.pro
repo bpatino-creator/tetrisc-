@@ -9,6 +9,7 @@ CONFIG += c++17 cmdline
 SOURCES += \
         logica.cpp \
         main.cpp \
+        moverpieza.cpp \
         piezas.cpp \
         rotacion.cpp \
         tablero.cpp
@@ -20,6 +21,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     logica.h \
+    moverpieza.h \
     piezas.h \
     rotacion.h \
     tablero.h

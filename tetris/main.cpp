@@ -3,13 +3,14 @@
 #include "piezas.h"
 #include "logica.h"
 #include "rotacion.h"
+#include "moverpieza.h"
 
 using namespace std;
 
 int main()
 {
-    int alto;
-    int ancho;
+    int alto=0;
+    int ancho=0;
 
     // ==========================
     // VALIDACIÓN DE DATOS
@@ -118,20 +119,6 @@ int main()
                 rotacion = rotacionTemp;
             }
         }
-        /*if(opcion == 's')
-        {
-            while(puedeBajar(tablero, pieza, altoPieza, x, y, alto, ancho))
-            {
-                y++;
-            }
-        }
-        if(opcion == 's')
-        {
-            if(puedeBajar(tablero, pieza, altoPieza, x, y, alto, ancho))
-            {
-                y++;
-            }
-        }*/
 
         // -------- GRAVEDAD --------
         if(puedeBajar(tablero, pieza, altoPieza, x, y, alto, ancho))
@@ -146,14 +133,16 @@ int main()
 
             generarPieza(pieza, altoPieza, tipo);
             //generarPieza(pieza, altoPieza);
-            x = ancho / 2 - 2;
+            x = ancho / 2;
+            //x = ancho / 2 - 2;
             y = 0;
+            //x = (ancho / 2) - 4;
+            //y = 0;
+
 
             // GAME OVER
             if(!puedeMover(tablero, pieza, altoPieza, x, y, 0, ancho, alto))
-            {
-
-            //if(!puedeBajar(tablero, pieza, altoPieza, x, y, alto, ancho)
+            {            
                 cout << "GAME OVER" << endl;
                 break;
             }

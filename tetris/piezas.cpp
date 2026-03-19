@@ -23,41 +23,46 @@ void generarPieza(unsigned char pieza[], int &altoPieza, int &tipo)
     if(tipo == 0) // I
     {
         altoPieza = 1;
-        pieza[0] = 0b11110000;
+        pieza[0] = 0b00111100;
     }
 
     if(tipo == 1) // O
     {
         altoPieza = 2;
-        pieza[0] = 0b11000000;
-        pieza[1] = 0b11000000;
+        pieza[0] = 0b00110000;
+        pieza[1] = 0b00110000;
     }
 
     if(tipo == 2) // T
     {
         altoPieza = 2;
-        pieza[0] = 0b11100000;
-        pieza[1] = 0b01000000;
+        pieza[0] = 0b00111000;
+        pieza[1] = 0b00010000;
     }
 
     if(tipo == 3) // S
     {
         altoPieza = 2;
-        pieza[0] = 0b01100000;
-        pieza[1] = 0b11000000;
+        pieza[0] = 0b00011000;
+        pieza[1] = 0b00110000;
     }
 
     if(tipo == 4) // Z
     {
         altoPieza = 2;
-        pieza[0] = 0b11000000;
-        pieza[1] = 0b01100000;
+        pieza[0] = 0b00110000;
+        pieza[1] = 0b00011000;
     }
 }
 
-/*void generarPieza(unsigned char pieza[], int &altoPieza)
+// ========================================
+// GENERAR PIEZA ALEATORIA
+// ========================================
+
+/*
+void generarPieza(unsigned char pieza[], int &altoPieza, int &tipo)
 {
-    int tipo = pseudoRandom() % 5;
+    tipo = pseudoRandom() % 5;
 
     if(tipo == 0) // I
     {
@@ -94,6 +99,8 @@ void generarPieza(unsigned char pieza[], int &altoPieza, int &tipo)
     }
 }*/
 
+
+
 // ==========================
 // DIBUJAR PIEZA (SIN FIJAR)
 // ==========================
@@ -115,36 +122,6 @@ void dibujarPieza(char** tablero, unsigned char pieza[], int altoPieza, int x, i
     }
 }
 
-// ==========================
-// VERIFICAR SI PUEDE BAJAR
-// ==========================
-bool puedeBajar(char** tablero, unsigned char pieza[], int altoPieza, int x, int y, int alto, int ancho)
-{
-    if(y + altoPieza >= alto)
-        return false;
-
-    int byteIndex = x / 8;
-    int bitOffset = x % 8;
-
-    for(int i = 0; i < altoPieza; i++)
-    {
-        unsigned char fila = pieza[i] >> bitOffset;
-
-        // colisión con lo que ya está en el tablero
-        if(tablero[y + i + 1][byteIndex] & fila)
-            return false;
-
-        if(bitOffset != 0 && byteIndex + 1 < ancho / 8)
-        {
-            unsigned char parte2 = pieza[i] << (8 - bitOffset);
-
-            if(tablero[y + i + 1][byteIndex + 1] & parte2)
-                return false;
-        }
-    }
-
-    return true;
-}
 
 // ==========================
 // FIJAR PIEZA EN TABLERO
@@ -173,6 +150,39 @@ int anchoPieza(unsigned char pieza[], int altoPieza)
 
     for(int i = 0; i < altoPieza; i++)
     {
+        int izquierda = -1;
+        int derecha = -1;
+
+        for(int b = 7; b >= 0; b--)
+        {
+            if(pieza[i] & (1 << b))
+            {
+                if(izquierda == -1)
+                    izquierda = b;
+
+                derecha = b;
+            }
+        }
+
+        if(izquierda != -1)
+        {
+            int anchoFila = izquierda - derecha + 1;
+
+            if(anchoFila > max)
+                max = anchoFila;
+        }
+    }
+
+    return max;
+}
+
+/*
+int anchoPieza(unsigned char pieza[], int altoPieza)
+{
+    int max = 0;
+
+    for(int i = 0; i < altoPieza; i++)
+    {
         int anchoFila = 0;
 
         for(int b = 7; b >= 0; b--)
@@ -188,70 +198,5 @@ int anchoPieza(unsigned char pieza[], int altoPieza)
     }
 
     return max;
-}
+}*/
 
-bool puedeMover(char** tablero, unsigned char pieza[], int altoPieza,
-                int x, int y, int dx, int ancho, int alto)
-{
-    int nuevoX = x + dx;
-
-    // ==========================
-    // VALIDAR BORDE IZQUIERDO
-    // ==========================
-    if(nuevoX < 0)
-        return false;
-
-    // ==========================
-    // CALCULAR ANCHO DE LA PIEZA
-    // ==========================
-    int anchoP = 0;
-
-    for(int i = 0; i < altoPieza; i++)
-    {
-        for(int b = 7; b >= 0; b--)
-        {
-            if(pieza[i] & (1 << b))
-            {
-                int pos = 8 - b;
-                if(pos > anchoP)
-                    anchoP = pos;
-            }
-        }
-    }
-
-    // ==========================
-    // VALIDAR BORDE DERECHO
-    // ==========================
-    if(nuevoX + anchoP > ancho)
-        return false;
-
-    // ==========================
-    // VALIDAR COLISIONES
-    // ==========================
-    int byteIndex = nuevoX / 8;
-    int bitOffset = nuevoX % 8;
-
-    for(int i = 0; i < altoPieza; i++)
-    {
-        // evitar salir del tablero verticalmente
-        if(y + i >= alto)
-            return false;
-
-        unsigned char fila = pieza[i] >> bitOffset;
-
-        // colisión en el mismo byte
-        if(tablero[y + i][byteIndex] & fila)
-            return false;
-
-        // colisión en el siguiente byte
-        if(bitOffset != 0 && byteIndex + 1 < ancho / 8)
-        {
-            unsigned char parte2 = pieza[i] << (8 - bitOffset);
-
-            if(tablero[y + i][byteIndex + 1] & parte2)
-                return false;
-        }
-    }
-
-    return true;
-}
