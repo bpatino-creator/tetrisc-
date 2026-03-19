@@ -15,5 +15,7 @@ void fijarPieza(char** tablero, unsigned char pieza[], int altoPieza, int x, int
 
 int anchoPieza(unsigned char pieza[], int altoPieza);
 
+bool puedeMover(char** tablero, unsigned char pieza[], int altoPieza, int x, int y, int dx, int ancho, int alto);
+
 #endif
 

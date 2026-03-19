@@ -73,14 +73,12 @@ int main()
         cin >> opcion;
 
         // -------- MOVIMIENTO --------
-        if(opcion == 'a' && x > 0)
+        if(opcion == 'a' && puedeMover(tablero, pieza, altoPieza, x, y, -1, ancho, alto))
         {
             x--;
         }
 
-        int anchoP = anchoPieza(pieza, altoPieza);
-
-        if(opcion == 'd' && x + anchoP < ancho)
+            if(opcion == 'd' && puedeMover(tablero, pieza, altoPieza, x, y, 1, ancho, alto))
         {
             x++;
         }
