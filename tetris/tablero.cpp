@@ -39,3 +39,13 @@ void imprimirTablero(char** tablero, int alto, int ancho)
         cout << endl;
     }
 }
+
+void liberarTablero(char** tablero, int alto)
+{
+    for(int i = 0; i < alto; i++)
+    {
+        delete[] tablero[i];
+    }
+
+    delete[] tablero;
+}
