@@ -2,7 +2,8 @@
 #define PIEZAS_H
 
 // Genera una pieza aleatoria
-void generarPieza(unsigned char pieza[], int &altoPieza);
+void generarPieza(unsigned char pieza[], int &altoPieza, int &tipo);
+//void generarPieza(unsigned char pieza[], int &altoPieza);
 
 // Dibuja la pieza sobre el tablero (temporal o definitiva)
 void dibujarPieza(char** tablero, unsigned char pieza[], int altoPieza, int x, int y, int ancho);

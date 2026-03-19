@@ -1,6 +1,8 @@
 #include <iostream>
 #include "tablero.h"
 #include "piezas.h"
+#include "logica.h"
+#include "rotacion.h"
 
 using namespace std;
 
@@ -36,7 +38,13 @@ int main()
     unsigned char pieza[4];
     int altoPieza;
 
-    generarPieza(pieza, altoPieza);
+    int tipo;
+    int rotacion = 0;
+
+    generarPieza(pieza, altoPieza, tipo);
+    rotacion = 0;
+
+    //generarPieza(pieza, altoPieza);
 
     int x = ancho / 2 - 2;
     int y = 0;
@@ -69,7 +77,7 @@ int main()
         liberarTablero(copia, alto);
 
         // -------- ENTRADA --------
-        cout << "a: izquierda | d: derecha | s: bajar: ";
+        cout << "a: izquierda | d: derecha | s: bajar:  | r: rotar:  ";
         cin >> opcion;
 
         // -------- MOVIMIENTO --------
@@ -83,13 +91,47 @@ int main()
             x++;
         }
 
+
+        if(opcion == 's') // bajar rápido (pero no instantáneo)
+        {
+            if(puedeBajar(tablero, pieza, altoPieza, x, y, alto, ancho))
+                y++;
+        }
+
+        if(opcion == 'r')
+        {
+            unsigned char copia[4];
+            int altoCopia = altoPieza;
+            int rotacionTemp = rotacion;
+
+            for(int i = 0; i < 4; i++)
+                copia[i] = pieza[i];
+
+            rotarPieza(copia, altoCopia, tipo, rotacionTemp);
+
+            if(puedeMover(tablero, copia, altoCopia, x, y, 0, ancho, alto))
+            {
+                for(int i = 0; i < 4; i++)
+                    pieza[i] = copia[i];
+
+                altoPieza = altoCopia;
+                rotacion = rotacionTemp;
+            }
+        }
+        /*if(opcion == 's')
+        {
+            while(puedeBajar(tablero, pieza, altoPieza, x, y, alto, ancho))
+            {
+                y++;
+            }
+        }
         if(opcion == 's')
         {
             if(puedeBajar(tablero, pieza, altoPieza, x, y, alto, ancho))
             {
                 y++;
             }
-        }
+        }*/
 
         // -------- GRAVEDAD --------
         if(puedeBajar(tablero, pieza, altoPieza, x, y, alto, ancho))
@@ -100,13 +142,18 @@ int main()
         {
             fijarPieza(tablero, pieza, altoPieza, x, y, ancho);
 
-            generarPieza(pieza, altoPieza);
+            eliminarFilas(tablero, alto, ancho);
+
+            generarPieza(pieza, altoPieza, tipo);
+            //generarPieza(pieza, altoPieza);
             x = ancho / 2 - 2;
             y = 0;
 
             // GAME OVER
-            if(!puedeBajar(tablero, pieza, altoPieza, x, y, alto, ancho))
+            if(!puedeMover(tablero, pieza, altoPieza, x, y, 0, ancho, alto))
             {
+
+            //if(!puedeBajar(tablero, pieza, altoPieza, x, y, alto, ancho)
                 cout << "GAME OVER" << endl;
                 break;
             }

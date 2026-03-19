@@ -4,5 +4,6 @@
 void crearTablero(char**& tablero, int alto, int ancho);
 void imprimirTablero(char** tablero, int alto, int ancho);
 void liberarTablero(char** tablero, int alto);
+//void eliminarFilas(unsigned char** tablero, int alto, int ancho);
 
 #endif

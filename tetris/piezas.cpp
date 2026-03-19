@@ -15,7 +15,47 @@ int pseudoRandom()
 // ========================================
 // GENERAR PIEZA ALEATORIA
 // ========================================
-void generarPieza(unsigned char pieza[], int &altoPieza)
+
+void generarPieza(unsigned char pieza[], int &altoPieza, int &tipo)
+{
+    tipo = pseudoRandom() % 5;
+
+    if(tipo == 0) // I
+    {
+        altoPieza = 1;
+        pieza[0] = 0b11110000;
+    }
+
+    if(tipo == 1) // O
+    {
+        altoPieza = 2;
+        pieza[0] = 0b11000000;
+        pieza[1] = 0b11000000;
+    }
+
+    if(tipo == 2) // T
+    {
+        altoPieza = 2;
+        pieza[0] = 0b11100000;
+        pieza[1] = 0b01000000;
+    }
+
+    if(tipo == 3) // S
+    {
+        altoPieza = 2;
+        pieza[0] = 0b01100000;
+        pieza[1] = 0b11000000;
+    }
+
+    if(tipo == 4) // Z
+    {
+        altoPieza = 2;
+        pieza[0] = 0b11000000;
+        pieza[1] = 0b01100000;
+    }
+}
+
+/*void generarPieza(unsigned char pieza[], int &altoPieza)
 {
     int tipo = pseudoRandom() % 5;
 
@@ -52,7 +92,7 @@ void generarPieza(unsigned char pieza[], int &altoPieza)
         pieza[0] = 0b11000000;
         pieza[1] = 0b01100000;
     }
-}
+}*/
 
 // ==========================
 // DIBUJAR PIEZA (SIN FIJAR)

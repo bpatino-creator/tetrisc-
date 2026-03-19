@@ -49,3 +49,5 @@ void liberarTablero(char** tablero, int alto)
 
     delete[] tablero;
 }
+
+
