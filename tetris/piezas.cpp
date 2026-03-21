@@ -12,54 +12,7 @@ int pseudoRandom()
     return seed;
 }
 
-// ========================================
-// GENERAR PIEZA ALEATORIA
-// ========================================
 
-void generarPieza(unsigned char pieza[], int &altoPieza, int &tipo)
-{
-    tipo = pseudoRandom() % 5;
-
-    if(tipo == 0) // I
-    {
-        altoPieza = 1;
-        pieza[0] = 0b00111100;
-    }
-
-    if(tipo == 1) // O
-    {
-        altoPieza = 2;
-        pieza[0] = 0b00110000;
-        pieza[1] = 0b00110000;
-    }
-
-    if(tipo == 2) // T
-    {
-        altoPieza = 2;
-        pieza[0] = 0b00111000;
-        pieza[1] = 0b00010000;
-    }
-
-    if(tipo == 3) // S
-    {
-        altoPieza = 2;
-        pieza[0] = 0b00011000;
-        pieza[1] = 0b00110000;
-    }
-
-    if(tipo == 4) // Z
-    {
-        altoPieza = 2;
-        pieza[0] = 0b00110000;
-        pieza[1] = 0b00011000;
-    }
-}
-
-// ========================================
-// GENERAR PIEZA ALEATORIA
-// ========================================
-
-/*
 void generarPieza(unsigned char pieza[], int &altoPieza, int &tipo)
 {
     tipo = pseudoRandom() % 5;
@@ -97,7 +50,7 @@ void generarPieza(unsigned char pieza[], int &altoPieza, int &tipo)
         pieza[0] = 0b11000000;
         pieza[1] = 0b01100000;
     }
-}*/
+}
 
 
 
@@ -106,6 +59,7 @@ void generarPieza(unsigned char pieza[], int &altoPieza, int &tipo)
 // ==========================
 void dibujarPieza(char** tablero, unsigned char pieza[], int altoPieza, int x, int y, int ancho)
 {
+    //ya definida en el main cuando se genera el tamaño de la pieza.
     int byteIndex = x / 8;
     int bitOffset = x % 8;
 
@@ -144,59 +98,6 @@ void fijarPieza(char** tablero, unsigned char pieza[], int altoPieza, int x, int
     }
 }
 
-int anchoPieza(unsigned char pieza[], int altoPieza)
-{
-    int max = 0;
 
-    for(int i = 0; i < altoPieza; i++)
-    {
-        int izquierda = -1;
-        int derecha = -1;
 
-        for(int b = 7; b >= 0; b--)
-        {
-            if(pieza[i] & (1 << b))
-            {
-                if(izquierda == -1)
-                    izquierda = b;
-
-                derecha = b;
-            }
-        }
-
-        if(izquierda != -1)
-        {
-            int anchoFila = izquierda - derecha + 1;
-
-            if(anchoFila > max)
-                max = anchoFila;
-        }
-    }
-
-    return max;
-}
-
-/*
-int anchoPieza(unsigned char pieza[], int altoPieza)
-{
-    int max = 0;
-
-    for(int i = 0; i < altoPieza; i++)
-    {
-        int anchoFila = 0;
-
-        for(int b = 7; b >= 0; b--)
-        {
-            if(pieza[i] & (1 << b))
-            {
-                anchoFila = 8 - b;
-            }
-        }
-
-        if(anchoFila > max)
-            max = anchoFila;
-    }
-
-    return max;
-}*/
 
